@@ -192,7 +192,6 @@ public class FongoConnection implements Connection {
    * @return the bulk write result
    * @since 3.2
    */
-  @Override
   public BulkWriteResult insertCommand(MongoNamespace namespace, boolean ordered, WriteConcern writeConcern, Boolean bypassDocumentValidation, List<InsertRequest> inserts) {
     LOG.debug("insertCommand() namespace:{} inserts:{}", namespace, inserts);
     final DBCollection collection = dbCollection(namespace);
@@ -276,7 +275,6 @@ public class FongoConnection implements Connection {
    * @return the bulk write result
    * @since 3.2
    */
-  @Override
   public BulkWriteResult updateCommand(MongoNamespace namespace, boolean ordered, WriteConcern writeConcern, Boolean bypassDocumentValidation, List<UpdateRequest> updates) {
     LOG.debug("updateCommand() namespace:{} updates:{}", namespace, updates);
     final FongoDBCollection collection = dbCollection(namespace);
@@ -587,7 +585,6 @@ public class FongoConnection implements Connection {
     return new QueryResult(namespace, decode(objects, resultDecoder), 1, fongo.getServerAddress());
   }
 
-  @Override
   public <T> QueryResult<T> query(MongoNamespace namespace, BsonDocument queryDocument, BsonDocument fields, int skip,
                                   int limit, int batchSize, boolean slaveOk, boolean tailableCursor, boolean awaitData,
                                   boolean noCursorTimeout, boolean partial, boolean oplogReplay, Decoder<T> resultDecoder) {
@@ -609,7 +606,6 @@ public class FongoConnection implements Connection {
     LOG.info("killCursor() cursors:{}", cursors);
   }
 
-  @Override
   public void killCursor(MongoNamespace namespace, List<Long> cursors) {
     LOG.debug("killCursor() namespace:{}, cursors:{}", namespace.getFullName(), cursors);
   }

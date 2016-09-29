@@ -4,7 +4,6 @@ import com.mongodb.DB;
 import com.mongodb.FongoDB;
 import com.mongodb.MockMongoClient;
 import com.mongodb.MongoClient;
-import com.mongodb.ReadConcern;
 import com.mongodb.ReadPreference;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
@@ -149,11 +148,6 @@ public class Fongo implements OperationExecutor {
   public WriteConcern getWriteConcern() {
     return mongo.getWriteConcern();
   }
-
-  public ReadConcern getReadConcern() {
-    return mongo.getReadConcern();
-  }
-
 
   private MongoClient createMongo() {
     return MockMongoClient.create(this);

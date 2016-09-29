@@ -20,7 +20,6 @@ public class MockMongoClient extends MongoClient {
 
   private Fongo fongo;
   private MongoOptions options;
-  private ReadConcern readConcern;
 
   public static MockMongoClient create(Fongo fongo) {
     // using objenesis here to prevent default constructor from spinning up background threads.
@@ -29,7 +28,6 @@ public class MockMongoClient extends MongoClient {
     client.fongo = fongo;
     client.setWriteConcern(clientOptions.getWriteConcern());
     client.setReadPreference(clientOptions.getReadPreference());
-    client.readConcern = clientOptions.getReadConcern() == null ? ReadConcern.DEFAULT : clientOptions.getReadConcern();
     return client;
   }
 
@@ -160,8 +158,4 @@ public class MockMongoClient extends MongoClient {
     return bufferProvider;
   }
 
-  @Override
-  public ReadConcern getReadConcern() {
-    return readConcern;
-  }
 }

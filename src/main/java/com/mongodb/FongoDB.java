@@ -162,11 +162,6 @@ public class FongoDB extends DB {
   }
 
   @Override
-  public ReadConcern getReadConcern() {
-    return fongo.getReadConcern();
-  }
-
-  @Override
   public ReadPreference getReadPreference() {
     return ReadPreference.primaryPreferred();
   }

@@ -1,5 +1,33 @@
 package com.github.fakemongo;
 
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Projections.excludeId;
+import static com.mongodb.client.model.Projections.slice;
+import static com.mongodb.client.model.Sorts.ascending;
+import static com.mongodb.client.model.Sorts.descending;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.Condition;
+import org.assertj.core.util.Lists;
+import org.bson.BsonDocument;
+import org.bson.BsonInt32;
+import org.bson.BsonString;
+import org.bson.Document;
+import org.junit.Assume;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
+
 import com.github.fakemongo.junit.FongoRule;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BulkWriteOperation;
@@ -20,43 +48,17 @@ import com.mongodb.client.MongoIterable;
 import com.mongodb.client.model.CountOptions;
 import com.mongodb.client.model.DeleteOneModel;
 import com.mongodb.client.model.Filters;
-import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.InsertOneModel;
 import com.mongodb.client.model.Projections;
-import static com.mongodb.client.model.Projections.excludeId;
-import static com.mongodb.client.model.Projections.slice;
 import com.mongodb.client.model.ReplaceOneModel;
 import com.mongodb.client.model.ReturnDocument;
-import static com.mongodb.client.model.Sorts.ascending;
-import static com.mongodb.client.model.Sorts.descending;
 import com.mongodb.client.model.UpdateOneModel;
 import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import com.mongodb.connection.ServerVersion;
-import java.util.ArrayList;
-import java.util.Arrays;
-import static java.util.Arrays.asList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import org.assertj.core.api.Assertions;
-import static org.assertj.core.api.Assertions.assertThat;
-import org.assertj.core.api.Condition;
-import org.assertj.core.util.Lists;
-import org.bson.BsonDocument;
-import org.bson.BsonInt32;
-import org.bson.BsonString;
-import org.bson.Document;
-import org.junit.Assume;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.rules.RuleChain;
-import org.junit.rules.TestRule;
 
 /**
  *
@@ -1179,7 +1181,7 @@ public abstract class AbstractFongoV3Test {
     MongoCollection collection = newCollection();
 
     // When
-    final Object oneAndUpdate = collection.findOneAndUpdate(new Document("_id", 1), Updates.set("randomkey", "randomvalue"), new FindOneAndUpdateOptions().upsert(true).projection(slice("key", 1)));
+    final Object oneAndUpdate = collection.findOneAndUpdate(new Document("_id", 1), new Document("randomkey", "randomvalue"), new FindOneAndUpdateOptions().upsert(true).projection(slice("key", 1)));
 
     // Then
     Assertions.assertThat(oneAndUpdate).isNull();

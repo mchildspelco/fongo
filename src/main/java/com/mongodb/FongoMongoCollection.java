@@ -1,15 +1,17 @@
 package com.mongodb;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.conversions.Bson;
+
 import com.github.fakemongo.Fongo;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.CountOptions;
 import com.mongodb.client.model.IndexModel;
 import com.mongodb.util.FongoJSON;
-import java.util.ArrayList;
-import java.util.List;
-import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.conversions.Bson;
 
 /**
  *
@@ -20,35 +22,30 @@ public class FongoMongoCollection<TDocument> extends MongoCollectionImpl<TDocume
 
   private final DBCollection dbCollection;
 
-  FongoMongoCollection(Fongo fongo, MongoNamespace namespace, Class<TDocument> tDocumentClass, CodecRegistry codecRegistry, ReadPreference readPreference, WriteConcern writeConcern, ReadConcern readConcern) {
-    super(namespace, tDocumentClass, codecRegistry, readPreference, writeConcern, readConcern, fongo);
+  FongoMongoCollection(Fongo fongo, MongoNamespace namespace, Class<TDocument> tDocumentClass, CodecRegistry codecRegistry, ReadPreference readPreference, WriteConcern writeConcern, ReadPreference readConcern) {
+    super(namespace, tDocumentClass, codecRegistry, readPreference, writeConcern, fongo);
     this.fongo = fongo;
     this.dbCollection = fongo.getDB(namespace.getDatabaseName()).getCollection(namespace.getCollectionName());
   }
 
   @Override
   public <NewTDocument> MongoCollection<NewTDocument> withDocumentClass(Class<NewTDocument> clazz) {
-    return new FongoMongoCollection<NewTDocument>(this.fongo, super.getNamespace(), clazz, super.getCodecRegistry(), super.getReadPreference(), super.getWriteConcern(), super.getReadConcern());
+    return new FongoMongoCollection<NewTDocument>(this.fongo, super.getNamespace(), clazz, super.getCodecRegistry(), super.getReadPreference(), super.getWriteConcern(), super.getReadPreference());
   }
 
   @Override
   public MongoCollection<TDocument> withCodecRegistry(CodecRegistry codecRegistry) {
-    return new FongoMongoCollection<TDocument>(this.fongo, super.getNamespace(), super.getDocumentClass(), codecRegistry, super.getReadPreference(), super.getWriteConcern(), super.getReadConcern());
+    return new FongoMongoCollection<TDocument>(this.fongo, super.getNamespace(), super.getDocumentClass(), codecRegistry, super.getReadPreference(), super.getWriteConcern(), super.getReadPreference());
   }
 
   @Override
   public MongoCollection<TDocument> withReadPreference(ReadPreference readPreference) {
-    return new FongoMongoCollection<TDocument>(this.fongo, super.getNamespace(), super.getDocumentClass(), super.getCodecRegistry(), readPreference, super.getWriteConcern(), super.getReadConcern());
+    return new FongoMongoCollection<TDocument>(this.fongo, super.getNamespace(), super.getDocumentClass(), super.getCodecRegistry(), readPreference, super.getWriteConcern(), super.getReadPreference());
   }
 
   @Override
   public MongoCollection<TDocument> withWriteConcern(WriteConcern writeConcern) {
-    return new FongoMongoCollection<TDocument>(this.fongo, super.getNamespace(), super.getDocumentClass(), super.getCodecRegistry(), super.getReadPreference(), writeConcern, super.getReadConcern());
-  }
-
-  @Override
-  public MongoCollection<TDocument> withReadConcern(ReadConcern readConcern) {
-    return new FongoMongoCollection<TDocument>(this.fongo, super.getNamespace(), super.getDocumentClass(), super.getCodecRegistry(), super.getReadPreference(), super.getWriteConcern(), readConcern);
+    return new FongoMongoCollection<TDocument>(this.fongo, super.getNamespace(), super.getDocumentClass(), super.getCodecRegistry(), super.getReadPreference(), writeConcern, super.getReadPreference());
   }
 
   @Override
